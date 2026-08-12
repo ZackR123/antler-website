@@ -6,6 +6,7 @@ const products = [
     price: 85,
     image: "/vite.svg",
     status: "Available",
+    category: "kitchen-knobs",
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const products = [
     price: 140,
     image: "/vite.svg",
     status: "Available",
+    category: "cabinet-pulls",
   },
   {
     id: 3,
@@ -22,15 +24,17 @@ const products = [
     price: 65,
     image: "/vite.svg",
     status: "Available",
+    category: "furniture-pulls",
   },
   {
-  id: 4,
-  title: "Large Elk Antler",
-  description: "Heavy naturally shed elk antler with good color.",
-  price: 175,
-  image: "/vite.svg",
-  status: "Available",
-},
+    id: 4,
+    title: "Large Elk Antler",
+    description: "Heavy naturally shed elk antler with good color.",
+    price: 175,
+    image: "/vite.svg",
+    status: "Available",
+    category: "drawer-pulls",
+  },
 ];
 
 export default products;

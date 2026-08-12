@@ -1,9 +1,14 @@
-import products from "./data/products";
-import ProductGrid from "./components/ProductGrid";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Products from "./pages/Products";
 
 function App() {
-  return <Home />;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/products" element={<Products />} />
+    </Routes>
+  );
 }
 
 export default App;
