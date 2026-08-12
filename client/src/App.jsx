@@ -1,22 +1,16 @@
-import { useEffect, useState } from "react";
+import products from "./data/products";
+import ProductCard from "./components/ProductCard";
 
 function App() {
-  const [message, setMessage] = useState("Loading...");
-
-  useEffect(() => {
-    fetch("http://localhost:5001/")
-      .then((response) => response.text())
-      .then((data) => setMessage(data))
-      .catch((error) => {
-        console.error(error);
-        setMessage("Could not connect to backend");
-      });
-  }, []);
-
   return (
     <div>
-      <h1>Aarons Antlers</h1>
-      <p>{message}</p>
+      <h1>Antler Website</h1>
+
+      <div className="product-list">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </div>
   );
 }
