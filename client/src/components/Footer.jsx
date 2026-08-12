@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer>
-      <p>© 2026 Antler Website</p>
+      <p>© 2026 Antler and Stone Creations</p>
     </footer>
   );
 }

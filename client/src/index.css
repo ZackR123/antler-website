@@ -1,9 +1,39 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  color: #222222;
+  background-color: #f7f7f7;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  margin-bottom: 64px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  max-width: 1200px;
+  max-width: 1152px;
   margin: 20px auto;
   padding: 16px 24px;
 
@@ -38,4 +68,264 @@
 .nav-button:hover {
   background-color: darkslategray;
   color: white;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .product-controls select,
+  .product-controls button {
+    width: 100%;
+  }
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 12px;
+  border: 1px solid wheat;
+  border-radius: 12px;
+
+  background-color: white;
+}
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+
+  border-radius: 10px;
+}
+
+.product-card h2 {
+  margin: 4px 0 0;
+  font-size: 1.1rem;
+}
+
+.product-card p {
+  margin: 0;
+}
+
+.product-description {
+  color: darkslategray;
+  line-height: 1.4;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.product-status {
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.product-status.available {
+  background-color: lightsteelblue;
+  color: forestgreen;
+}
+
+.product-status.sold {
+  background-color: lightsteelblue;
+  color: darkslategray;
+}
+
+.hero {
+  max-width: 1152px;
+  margin: 0 auto 64px;
+  padding: 64px 24px;
+
+  background-color: white;
+  border: 1px solid wheat;
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.hero h1 {
+  margin-bottom: 16px;
+  font-size: 2.5rem;
+}
+
+.hero p {
+  margin-bottom: 16px;
+  color: darkslategray;
+}
+
+.hero-categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin: 24px 0;
+}
+
+.hero-categories a {
+  padding: 8px 12px;
+
+  border: 1px solid wheat;
+  border-radius: 999px;
+
+  text-decoration: none;
+  color: darkslategray;
+
+  background-color: #f7f7f7;
+}
+
+.hero-categories a:hover {
+  background-color: wheat;
+}
+
+.hero-button {
+  display: inline-block;
+
+  margin-top: 12px;
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  background-color: darkslategray;
+  color: white;
+
+  text-decoration: none;
+
+  transition: 0.2s ease;
+}
+
+.hero-button:hover {
+  opacity: 0.85;
+}
+
+
+#about,
+#contact {
+  padding: 32px;
+
+  background-color: white;
+  border: 1px solid wheat;
+  border-radius: 12px;
+}
+
+#about h2,
+#contact h2 {
+  margin-bottom: 12px;
+}
+
+#about p,
+#contact p {
+  margin-bottom: 0;
+  color: darkslategray;
+  line-height: 1.6;
+}
+
+footer {
+  max-width: 1152px;
+  margin: 0 auto 20px;
+  padding: 24px;
+
+  background-color: white;
+  border: 1px solid wheat;
+  border-radius: 12px;
+
+  text-align: center;
+  color: darkslategray;
+}
+
+footer p {
+  margin: 0;
+}
+
+.product-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  margin-bottom: 24px;
+  padding: 16px;
+
+  background-color: white;
+  border: 1px solid wheat;
+  border-radius: 12px;
+}
+
+.product-controls label {
+  font-weight: 600;
+  color: darkslategray;
+}
+
+.product-controls select {
+  padding: 10px 12px;
+
+  border: 1px solid darkslategray;
+  border-radius: 8px;
+
+  background-color: white;
+  color: #222222;
+
+  font-size: 1rem;
+}
+
+.product-controls button {
+  padding: 10px 16px;
+
+  border: 1px solid darkslategray;
+  border-radius: 8px;
+
+  background-color: darkslategray;
+  color: white;
+
+  cursor: pointer;
+  font-size: 1rem;
+
+  transition: 0.2s ease;
+}
+
+.product-controls button:hover {
+  opacity: 0.85;
+}
+
+main > h1 {
+  margin-bottom: 24px;
+  font-size: 2rem;
+}
+
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }

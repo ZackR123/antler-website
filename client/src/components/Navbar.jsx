@@ -5,7 +5,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-brand">
         <Link to="/">
-          <h2>Antler Website</h2>
+          <h2>Antler and Stone Creations</h2>
         </Link>
       </div>
 

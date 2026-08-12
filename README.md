@@ -1,4 +1,4 @@
-# Antler Website
+# Antler and Stone Creations
 
 Website for displaying and managing antler listings. 
 

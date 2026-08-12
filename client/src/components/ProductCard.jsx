@@ -9,11 +9,13 @@ function ProductCard({ product }) {
 
       <h2>{product.title}</h2>
 
-      <p>{product.description}</p>
+      <p className="product-description">{product.description}</p>
 
-      <p>${product.price}</p>
+      <p className="product-price">${product.price}</p>
 
-      <p>{product.status}</p>
+      <span className={`product-status ${product.status.toLowerCase()}`}>
+        {product.status}
+      </span>
     </div>
   );
 }
