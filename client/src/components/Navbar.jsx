@@ -1,22 +1,26 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <h2>Antler Website</h2>
+        <Link to="/">
+          <h2>Antler Website</h2>
+        </Link>
       </div>
 
       <div className="navbar-links">
-        <a href="#products" className="nav-button">
+        <Link to="/products" className="nav-button">
           Products
-        </a>
+        </Link>
 
-        <a href="#about" className="nav-button">
+        <Link to="/#about" className="nav-button">
           About
-        </a>
+        </Link>
 
-        <a href="#contact" className="nav-button">
+        <Link to="/#contact" className="nav-button">
           Contact
-        </a>
+        </Link>
       </div>
     </nav>
   );

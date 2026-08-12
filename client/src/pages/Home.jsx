@@ -1,18 +1,28 @@
 import products from "../data/products";
 import ProductGrid from "../components/ProductGrid";
-import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import AboutSection from "../components/AboutSection";
+import ContactSection from "../components/ContactSection";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
     <>
-      <Navbar />
-      <Hero />
-      <main>
-        <h1>Antler Website</h1>
 
-        <ProductGrid products={products} />
+      <Hero />
+
+      <main>
+        <section id="products">
+          <h2>Featured Antlers</h2>
+          <ProductGrid products={products} />
+        </section>
+
+        <AboutSection />
+
+        <ContactSection />
       </main>
+
+      <Footer />
     </>
   );
 }
