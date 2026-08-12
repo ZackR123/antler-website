@@ -23,6 +23,14 @@ const products = [
     image: "/vite.svg",
     status: "Available",
   },
+  {
+  id: 4,
+  title: "Large Elk Antler",
+  description: "Heavy naturally shed elk antler with good color.",
+  price: 175,
+  image: "/vite.svg",
+  status: "Available",
+},
 ];
 
 export default products;
