@@ -1,10 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import products from "../data/products";
 import ProductGrid from "../components/ProductGrid";
+import { useState } from "react";
+import ProductImageModal from "../components/ProductImageModal";
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const category = searchParams.get("category");
 
   const filteredProducts = category
@@ -42,13 +44,18 @@ function Products() {
         </select>
 
         {category && (
-          <button onClick={() => setSearchParams({})}>
-            View All Products
-          </button>
+          <button onClick={() => setSearchParams({})}>View All Products</button>
         )}
       </div>
 
-      <ProductGrid products={filteredProducts} />
+      <ProductGrid
+        products={filteredProducts}
+        onImageClick={setSelectedProduct}
+      />
+      <ProductImageModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </main>
   );
 }
