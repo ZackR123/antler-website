@@ -1,13 +1,29 @@
 import { useSearchParams } from "react-router-dom";
-import products from "../data/products";
+import { getProducts } from "../services/api";
 import ProductGrid from "../components/ProductGrid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductImageModal from "../components/ProductImageModal";
+
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+
   const category = searchParams.get("category");
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error loading products:", error);
+      }
+    }
+
+    loadProducts();
+  }, []);
 
   const filteredProducts = category
     ? products.filter((product) => product.category === category)
@@ -22,7 +38,6 @@ function Products() {
       setSearchParams({ category: selectedCategory });
     }
   }
-
   return (
     <main>
       <h1>Available Antlers</h1>
