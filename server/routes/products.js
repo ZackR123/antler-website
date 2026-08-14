@@ -1,48 +1,61 @@
 const express = require("express");
+const pool = require("../db");
 
 const router = express.Router();
 
-const products = [
-  {
-    id: 1,
-    title: "Mule Deer Antler",
-    description: "Naturally shed mule deer antler.",
-    price: 85,
-    image: "/products/AntlerImgTest.png",
-    status: "Available",
-    category: "kitchen-knobs",
-  },
-  {
-    id: 2,
-    title: "Elk Shed",
-    description: "Large naturally shed elk antler.",
-    price: 140,
-    image: "/products/AntlerImgTest.png",
-    status: "Available",
-    category: "cabinet-pulls",
-  },
-  {
-    id: 3,
-    title: "Whitetail Antler",
-    description: "Clean whitetail shed antler.",
-    price: 65,
-    image: "/products/AntlerImgTest.png",
-    status: "Available",
-    category: "furniture-pulls",
-  },
-  {
-    id: 4,
-    title: "Large Elk Antler",
-    description: "Heavy naturally shed elk antler with good color.",
-    price: 175,
-    image: "/products/AntlerImgTest.png",
-    status: "Available",
-    category: "drawer-pulls",
-  },
-];
+router.get("/", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM products ORDER BY id ASC");
 
-router.get("/", (req, res) => {
-  res.json(products);
+    const products = result.rows.map((product) => ({
+      ...product,
+      image: product.image_url,
+    }));
+
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+
+    res.status(500).json({
+      error: "Failed to fetch products",
+    });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const productId = Number(req.params.id);
+
+    if (!Number.isInteger(productId) || productId <= 0) {
+      return res.status(400).json({
+        error: "Invalid product ID",
+      });
+    }
+
+    const result = await pool.query(
+      "SELECT * FROM products WHERE id = $1",
+      [productId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Product not found",
+      });
+    }
+
+    const product = result.rows[0];
+
+    res.json({
+      ...product,
+      image: product.image_url,
+    });
+  } catch (error) {
+    console.error("Error fetching product:", error);
+
+    res.status(500).json({
+      error: "Failed to fetch product",
+    });
+  }
 });
 
 module.exports = router;

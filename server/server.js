@@ -1,3 +1,4 @@
+const pool = require("./db");
 const express = require("express");
 const cors = require("cors");
 const productRoutes = require("./routes/products");
@@ -14,6 +15,15 @@ app.get("/", (req, res) => {
   res.send("Antler API is running");
 });
 
+
+pool.query("SELECT NOW()")
+  .then((result) => {
+    console.log("Database connected:", result.rows[0]);
+  })
+  .catch((error) => {
+    console.error("Database connection error:", error);
+  });
+  
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
