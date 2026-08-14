@@ -5,11 +5,13 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM products ORDER BY id ASC");
+    const result = await pool.query(
+      "SELECT p.*, pi.image_url AS primary_image FROM products p LEFT JOIN product_images pi ON pi.product_id = p.id AND pi.is_primary = TRUE ORDER BY p.id ASC",
+    );
 
     const products = result.rows.map((product) => ({
       ...product,
-      image: product.image_url,
+      image: product.primary_image,
     }));
 
     res.json(products);
@@ -32,22 +34,38 @@ router.get("/:id", async (req, res) => {
       });
     }
 
-    const result = await pool.query(
+    const productResult = await pool.query(
       "SELECT * FROM products WHERE id = $1",
-      [productId]
+      [productId],
     );
 
-    if (result.rows.length === 0) {
+    if (productResult.rows.length === 0) {
       return res.status(404).json({
         error: "Product not found",
       });
     }
 
-    const product = result.rows[0];
+    const imageResult = await pool.query(
+      `
+        SELECT
+          id,
+          image_url,
+          display_order,
+          is_primary
+        FROM product_images
+        WHERE product_id = $1
+        ORDER BY display_order ASC, id ASC
+      `,
+      [productId],
+    );
+
+    const product = productResult.rows[0];
 
     res.json({
       ...product,
-      image: product.image_url,
+      image:
+        imageResult.rows.find((image) => image.is_primary)?.image_url || null,
+      images: imageResult.rows,
     });
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -57,5 +75,4 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
-
 module.exports = router;
