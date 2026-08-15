@@ -1,5 +1,6 @@
 const express = require("express");
 const pool = require("../db");
+const requireAdmin = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -23,6 +24,180 @@ router.get("/", async (req, res) => {
     });
   }
 });
+
+router.post("/", requireAdmin, async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      price,
+      status = "Available",
+      category,
+    } = req.body;
+
+    if (!title || price === undefined || price === null) {
+      return res.status(400).json({
+        error: "Title and price are required",
+      });
+    }
+
+    const numericPrice = Number(price);
+
+    if (Number.isNaN(numericPrice) || numericPrice < 0) {
+      return res.status(400).json({
+        error: "Price must be a valid non-negative number",
+      });
+    }
+
+    const allowedStatuses = ["Available", "Sold"];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        error: "Invalid product status",
+      });
+    }
+
+    const result = await pool.query(
+      `
+        INSERT INTO products
+          (title, description, price, status, category)
+        VALUES
+          ($1, $2, $3, $4, $5)
+        RETURNING *
+      `,
+      [
+        title.trim(),
+        description?.trim() || null,
+        numericPrice,
+        status,
+        category?.trim() || null,
+      ]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error creating product:", error);
+
+    res.status(500).json({
+      error: "Failed to create product",
+    });
+  }
+});
+
+router.put("/:id", requireAdmin, async (req, res) => {
+  try {
+    const productId = Number(req.params.id);
+
+    if (!Number.isInteger(productId) || productId <= 0) {
+      return res.status(400).json({
+        error: "Invalid product ID",
+      });
+    }
+
+    const {
+      title,
+      description,
+      price,
+      status,
+      category,
+    } = req.body;
+
+    if (!title || price === undefined || price === null) {
+      return res.status(400).json({
+        error: "Title and price are required",
+      });
+    }
+
+    const numericPrice = Number(price);
+
+    if (Number.isNaN(numericPrice) || numericPrice < 0) {
+      return res.status(400).json({
+        error: "Price must be a valid non-negative number",
+      });
+    }
+
+    const allowedStatuses = ["Available", "Sold"];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        error: "Invalid product status",
+      });
+    }
+
+    const result = await pool.query(
+      `
+        UPDATE products
+        SET
+          title = $1,
+          description = $2,
+          price = $3,
+          status = $4,
+          category = $5,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $6
+        RETURNING *
+      `,
+      [
+        title.trim(),
+        description?.trim() || null,
+        numericPrice,
+        status,
+        category?.trim() || null,
+        productId,
+      ]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Product not found",
+      });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error updating product:", error);
+
+    res.status(500).json({
+      error: "Failed to update product",
+    });
+  }
+});
+
+
+router.delete("/:id", requireAdmin, async (req, res) => {
+  try {
+    const productId = Number(req.params.id);
+
+    if (!Number.isInteger(productId) || productId <= 0) {
+      return res.status(400).json({
+        error: "Invalid product ID",
+      });
+    }
+
+    const result = await pool.query(
+      "DELETE FROM products WHERE id = $1 RETURNING *",
+      [productId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Product not found",
+      });
+    }
+
+    res.json({
+      message: "Product deleted successfully",
+      product: result.rows[0],
+    });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+
+    res.status(500).json({
+      error: "Failed to delete product",
+    });
+  }
+});
+
 
 router.get("/:id", async (req, res) => {
   try {
